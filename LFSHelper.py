@@ -3,10 +3,10 @@ from os.path import isfile, join
 from os import stat
 import 
 
-extentions = []                  # Array of extentions.
-binaryExtentions = ["bin","BIN"] #Array of binary extentions.
-filesWithoutExtentions = []
-pathsToFiles = []
+extentions = []                   # Array of extentions.
+binaryExtentions = ["bin","BIN"]  # Binary extentions.
+filesWithoutExtentions = []       # Binary files without extentions
+pathsToFiles = []                 # Parallel file that stores paths for FilesWithoutExtentions
 
 # Converts the extention array to the LFS track command.
 def listToLFSTrack(extentionArray):
@@ -16,6 +16,7 @@ def listToLFSTrack(extentionArray):
     for i in filesWithoutExtentions:
         outputStr += '"' + i + '" '
     return outputStr
+
 
 # Converts the extention array to the BFG command.
 def listToBFG(extentionArray):
@@ -41,7 +42,7 @@ def isBinaryFile(path):
                 return True
     return False
 
-# Adds the extention to extArr if it does not exist.
+# Adds the extention to extentions array if it is not already present.
 def addToExtArr(extention):
     for i in extentions:
         if extention == i:
@@ -49,12 +50,11 @@ def addToExtArr(extention):
     extentions.append(extention)
     return True
 
+
+# Traverses the directory and populates extentions, filesWithoutExtentions, and pathsToFiles.
 def traverseDirectory(path):
-
-    # Iterate over directories in the path.
-    for f in listdir(path):
+    for f in listdir(path):         # Iterate over directories in the path.
         if isfile(join(path, f)):
-
             extention = f.split(".")
             if addToExtArr(extention[-1]) and isBinaryFile(join(path,f)):
                 if extention[-1] == extention[0]:
@@ -108,7 +108,7 @@ def getBinaryFileExtentions(outputFileName, pathToTraverse):
         outputStr += binaryExtentions[i] + ","
     f.write(outputStr + "\n")
 
-    #adds the binary files without extentions.
+    # Adds the binary files without extentions.
     f.write("\n--- BINARY FILES WITHOUT EXTENTIONS: ---\n")
     for i in range(len(filesWithoutExtentions)):
         f.write(filesWithoutExtentions[i] + " : " + pathsToFiles[i] + " \n")
@@ -121,6 +121,7 @@ def getBinaryFileExtentions(outputFileName, pathToTraverse):
     
     f.close()
 
+# Uses the function input to format the printed or file output.
 def outputCommand(function, oFile, strList):
     lst = strList.split(",")
     if oFile == "binaryFileExtentions.txt":
@@ -129,7 +130,8 @@ def outputCommand(function, oFile, strList):
         f = open(oFile, "w")
         f.write(function(lst))
         f.close
-        
+
+# Acts as a control function by parsing the commandline arguments and calling associated functions.
 def parseArgs():
     errorString = "    -- ERROR: Invalid arguments --\n    Use -h or --help for help"
     
@@ -146,7 +148,6 @@ def parseArgs():
         lstToLFS = False
         lstToBFG = False
         lst = ""
-        
 
         for i in range(len(sys.argv)):
             if sys.argv[i] == "-r" or sys.argv[i] == "--repo": repoIndex = i + 1
