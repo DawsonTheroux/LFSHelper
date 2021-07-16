@@ -1,7 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 from os import stat
-import 
+import sys
 
 extentions = []                   # Array of extentions.
 binaryExtentions = ["bin","BIN"]  # Binary extentions.
