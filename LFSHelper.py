@@ -58,14 +58,13 @@ def traverseDirectory(path):
         if isfile(join(path, f)):
 
             extention = f.split(".")
-            if addToExtArr(extention[-1]):
-                if(isBinaryFile(join(path,f))):
-                    if extention[-1] == extention[0]:
-                        filesWithoutExtentions.append(f)
-                        pathsToFiles.append(join(path,f))
+            if addToExtArr(extention[-1]) and isBinaryFile(join(path,f)):
+                if extention[-1] == extention[0]:
+                    filesWithoutExtentions.append(f)
+                    pathsToFiles.append(join(path,f))
                         
-                    else:
-                        binaryExtentions.append(extention[-1])
+                else:
+                    binaryExtentions.append(extention[-1])
 
         else:
             if f == ".git" or f == "info" or f == "lfs" or f == "refs" or f == "logs" or f == "objects" or f == "svn" or f == "branches" or f == "hooks": #Ignores all Git objects.
