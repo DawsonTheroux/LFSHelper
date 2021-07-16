@@ -1,9 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 from os import stat
-import sys
-
-#ToDo: add functionality to take in different kinds of inputs, and output commands.
+import 
 
 extentions = []                  # Array of extentions.
 binaryExtentions = ["bin","BIN"] #Array of binary extentions.
