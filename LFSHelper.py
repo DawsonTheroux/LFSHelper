@@ -20,7 +20,7 @@ def listToLFSTrack(extentionArray):
 
 # Converts the extention array to the BFG command.
 def listToBFG(extentionArray):
-    outputStr = 'java -jar <PATH TO BFG SCRIPT> "{'
+    outputStr = 'java -jar <PATH TO BFG SCRIPT> --convert-to-git-lfs "{'
 
     for i in extentionArray:
         outputStr += "*." + i
@@ -30,7 +30,7 @@ def listToBFG(extentionArray):
     for i in filesWithoutExtentions:
         outputStr += "," + i
 
-    outputStr += "} --no-blob-protection <PATH TO GIT REPOSITORY>"
+    outputStr += '}" --no-blob-protection <PATH TO GIT REPOSITORY>'
     return outputStr
 
             
